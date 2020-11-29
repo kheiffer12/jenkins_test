@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+    stages {
+		stage('Git-Checkout') {
+			steps {
+					echo 'Checking out from Git Repo'
+					git branch: 'main', url: 'https://github.com/kheiffer12/jenkins_test.git'
+			}
+		}
+		
+		stage('Build') {
+			steps {
+					echo 'Building the checked-out project'
+					sh 'sh Build.sh'
+			}
+		}	
+
+		stage('Unit-Test') {
+			steps {
+					echo 'Building the checked-out project'
+					sh 'sh Quality.sh'
+			}
+		}	
+
+		stage('Deploy') {
+			steps {
+					echo 'Deploying the project'
+					sh 'sh Deploy.sh'
+			}
+		}	
+    }
+
+    post {
+		always	{
+			echo "This will always run"
+		}
+		success	{
+			echo "Successful!!!"
+		}
+		failure	{
+			echo "Failed!!!"
+		}
+		unstable	{
+			echo "Marked as Unstable!"
+		}
+		changed	{
+			echo "State of pipeline has changed"
+		}
+	}
+	
+}

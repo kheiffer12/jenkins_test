@@ -1,1 +1,1 @@
-echo "Building the project: " `date`
+echo "Building the project: "
